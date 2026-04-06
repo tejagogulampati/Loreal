@@ -1,65 +1,61 @@
+const chatBox = document.getElementById("chatBox");
 const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
-const chatWindow = document.getElementById("chatWindow");
 
-/* 🔗 PUT YOUR REAL WORKER URL */
-const WORKER_URL = "https://YOUR-WORKER-NAME.workers.dev";
+// IMPORTANT: this works with Cloudflare Pages Functions
+const API_URL = "/api/chat";
 
-/* SYSTEM PROMPT */
-let messages = [
-  {
-    role: "system",
-    content: "You are a luxury L'Oréal Hair and Beauty Advisor. Give expert, stylish, and high-quality recommendations. Keep responses short and premium."
-  }
-];
-
-/* WELCOME */
-addMessage("Welcome. Ask about haircare, skincare, or beauty routines.", "ai");
-
-/* ADD MESSAGE */
-function addMessage(text, sender) {
-  const msg = document.createElement("div");
-  msg.classList.add("msg", sender);
-  msg.textContent = text;
-  chatWindow.appendChild(msg);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+function addMessage(text, type) {
+  const div = document.createElement("div");
+  div.className = type;
+  div.textContent = text;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-/* SEND MESSAGE */
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const text = userInput.value.trim();
-  if (!text) return;
+  const message = userInput.value.trim();
+  if (!message) return;
 
-  addMessage(text, "user");
-  addMessage("Typing...", "ai");
-
-  messages.push({ role: "user", content: text });
+  addMessage(message, "user");
   userInput.value = "";
 
+  addMessage("Typing...", "bot");
+
   try {
-    const res = await fetch(WORKER_URL, {
+    const res = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages })
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content: "You are a L'Oréal beauty expert. Only answer skincare, haircare, makeup questions in a luxury tone."
+          },
+          {
+            role: "user",
+            content: message
+          }
+        ]
+      })
     });
 
-    if (!res.ok) throw new Error("Server error");
-
     const data = await res.json();
-    console.log(data);
 
-    const reply = data.choices?.[0]?.message?.content || "No response.";
+    // remove "Typing..."
+    chatBox.lastChild.remove();
 
-    chatWindow.lastChild.remove();
-    addMessage(reply, "ai");
+    const reply = data.choices?.[0]?.message?.content || "No response";
 
-    messages.push({ role: "assistant", content: reply });
+    addMessage(reply, "bot");
 
-  } catch (err) {
-    chatWindow.lastChild.remove();
-    addMessage("Connection error. Check backend.", "ai");
-    console.error(err);
+  } catch (error) {
+    chatBox.lastChild.remove();
+    addMessage("Connection error. Check backend.", "bot");
+    console.log(error);
   }
 });

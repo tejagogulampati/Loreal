@@ -1,52 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>L’Oréal Hair & Beauty Advisor</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet"/>
-
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'Oréal AI Chatbot</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="page-wrapper">
 
-    <!-- HEADER -->
-    <header class="site-header">
-      <img src="loreal-logo.png" class="logo" />
-      <h1 class="site-title">L’Oréal Hair & Beauty Advisor</h1>
-      <p class="subtitle">Personalized care for hair, skin, and style</p>
-    </header>
+  <div class="container">
+    <h1>L'Oréal AI Beauty Assistant</h1>
 
-    <!-- CHAT -->
-    <main>
-      <section class="chatbox">
-        <div id="chatWindow" class="chat-window"></div>
+    <div id="chatBox"></div>
 
-        <form id="chatForm" class="chat-form">
-          <input
-            id="userInput"
-            type="text"
-            placeholder="Ask about haircare, routines, products..."
-            autocomplete="off"
-            required
-          />
-          <button type="submit">
-            <span class="material-icons">send</span>
-          </button>
-        </form>
-      </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-      <p>&copy; 2026 L’Oréal. All rights reserved.</p>
-    </footer>
-
+    <form id="chatForm">
+      <input type="text" id="userInput" placeholder="Ask about skincare, haircare..." />
+      <button type="submit">Send</button>
+    </form>
   </div>
 
   <script src="script.js"></script>
