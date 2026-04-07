@@ -1,61 +1,126 @@
+let products = [];
+let selectedProducts = JSON.parse(localStorage.getItem("selected")) || [];
+let chatHistory = [];
+
+const grid = document.getElementById("productGrid");
+const selectedBox = document.getElementById("selectedProducts");
 const chatBox = document.getElementById("chatBox");
-const chatForm = document.getElementById("chatForm");
-const userInput = document.getElementById("userInput");
 
-// IMPORTANT: this works with Cloudflare Pages Functions
-const API_URL = "/api/chat";
-
-function addMessage(text, type) {
-  const div = document.createElement("div");
-  div.className = type;
-  div.textContent = text;
-  chatBox.appendChild(div);
-  chatBox.scrollTop = chatBox.scrollHeight;
+async function loadProducts() {
+  const res = await fetch("products.json");
+  products = await res.json();
+  displayProducts(products);
+  updateSelectedUI();
 }
 
-chatForm.addEventListener("submit", async (e) => {
+function displayProducts(list) {
+  grid.innerHTML = "";
+
+  list.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    if (selectedProducts.find(x => x.id === p.id)) {
+      card.classList.add("selected");
+    }
+
+    card.innerHTML = `
+      <h3>${p.name}</h3>
+      <p>${p.brand}</p>
+      <p>${p.description}</p>
+    `;
+
+    card.onclick = () => toggleProduct(p);
+
+    grid.appendChild(card);
+  });
+}
+
+function toggleProduct(product) {
+  const exists = selectedProducts.find(p => p.id === product.id);
+
+  if (exists) {
+    selectedProducts = selectedProducts.filter(p => p.id !== product.id);
+  } else {
+    selectedProducts.push(product);
+  }
+
+  localStorage.setItem("selected", JSON.stringify(selectedProducts));
+
+  updateSelectedUI();
+  displayProducts(products);
+}
+
+function updateSelectedUI() {
+  selectedBox.innerHTML = "";
+
+  selectedProducts.forEach(p => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      ${p.name}
+      <button onclick="removeProduct(${p.id})">x</button>
+    `;
+    selectedBox.appendChild(div);
+  });
+}
+
+function removeProduct(id) {
+  selectedProducts = selectedProducts.filter(p => p.id !== id);
+  localStorage.setItem("selected", JSON.stringify(selectedProducts));
+  updateSelectedUI();
+  displayProducts(products);
+}
+
+function clearAll() {
+  selectedProducts = [];
+  localStorage.removeItem("selected");
+  updateSelectedUI();
+  displayProducts(products);
+}
+
+async function generateRoutine() {
+  const res = await fetch("https://loreal.gogulampativenkatatejacollege.workers.dev", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      type: "routine",
+      products: selectedProducts
+    })
+  });
+
+  const data = await res.json();
+
+  chatBox.innerHTML += `<div><b>AI Routine:</b><br>${data.reply}</div>`;
+}
+
+/* CHAT */
+document.getElementById("chatForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const message = userInput.value.trim();
-  if (!message) return;
+  const input = document.getElementById("chatInput");
+  const msg = input.value.trim();
+  if (!msg) return;
 
-  addMessage(message, "user");
-  userInput.value = "";
+  chatBox.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+  input.value = "";
 
-  addMessage("Typing...", "bot");
+  chatHistory.push({ role: "user", content: msg });
 
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: "You are a L'Oréal beauty expert. Only answer skincare, haircare, makeup questions in a luxury tone."
-          },
-          {
-            role: "user",
-            content: message
-          }
-        ]
-      })
-    });
+  const res = await fetch("https://loreal.gogulampativenkatatejacollege.workers.dev", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      type: "chat",
+      message: msg,
+      history: chatHistory
+    })
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    // remove "Typing..."
-    chatBox.lastChild.remove();
+  chatHistory.push({ role: "assistant", content: data.reply });
 
-    const reply = data.choices?.[0]?.message?.content || "No response";
-
-    addMessage(reply, "bot");
-
-  } catch (error) {
-    chatBox.lastChild.remove();
-    addMessage("Connection error. Check backend.", "bot");
-    console.log(error);
-  }
+  chatBox.innerHTML += `<div><b>AI:</b> ${data.reply}</div>`;
 });
+
+loadProducts();

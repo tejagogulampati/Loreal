@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Hydrating Cleanser",
+    "brand": "CeraVe",
+    "category": "skincare",
+    "description": "Gentle cleanser for dry skin"
+  },
+  {
+    "id": 2,
+    "name": "Oil Control Moisturizer",
+    "brand": "L'Oréal Paris",
+    "category": "skincare",
+    "description": "Reduces oil and shine"
+  },
+  {
+    "id": 3,
+    "name": "Vitamin C Serum",
+    "brand": "Garnier",
+    "category": "skincare",
+    "description": "Brightens skin tone"
+  },
+  {
+    "id": 4,
+    "name": "Revitalift Night Cream",
+    "brand": "L'Oréal Paris",
+    "category": "skincare",
+    "description": "Anti-aging night care"
+  }
+]

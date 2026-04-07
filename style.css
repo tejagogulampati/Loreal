@@ -1,44 +1,135 @@
 body {
   margin: 0;
   font-family: Arial;
-  background: black;
+  background: #0f0f0f;
   color: white;
 }
 
-.container {
-  width: 400px;
-  margin: 40px auto;
+header {
   text-align: center;
+  padding: 20px;
+  background: #111;
+  border-bottom: 2px solid #ff003b;
+}
+
+header h1 {
+  color: #ff003b;
+}
+
+.layout {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* PRODUCTS */
+.products-section {
+  flex: 2;
+}
+
+.top-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+select, input {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.product-card {
+  background: #1a1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #333;
+  transition: 0.2s;
+}
+
+.product-card:hover {
+  transform: scale(1.03);
+}
+
+.product-card.selected {
+  border: 2px solid #ff003b;
+}
+
+/* SIDE PANEL */
+.side-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.selected-box {
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#selectedProducts div {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+/* BUTTONS */
+.btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #ff003b;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn.secondary {
+  background: #444;
+}
+
+/* CHAT */
+.chat-box {
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 10px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
 }
 
 #chatBox {
-  height: 400px;
+  flex: 1;
   overflow-y: auto;
-  border: 1px solid #444;
+  background: #111;
   padding: 10px;
+  border-radius: 6px;
   margin-bottom: 10px;
 }
 
-.user {
-  text-align: right;
-  color: red;
-  margin: 5px;
+#chatForm {
+  display: flex;
+  gap: 10px;
 }
 
-.bot {
-  text-align: left;
-  color: white;
-  margin: 5px;
-}
-
-input {
-  width: 70%;
+#chatInput {
+  flex: 1;
   padding: 10px;
 }
 
 button {
-  padding: 10px;
-  background: red;
-  color: white;
+  background: #ff003b;
   border: none;
+  color: white;
+  padding: 10px;
 }

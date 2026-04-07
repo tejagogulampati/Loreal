@@ -2,23 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>L'Oréal AI Chatbot</title>
+  <title>L'Oréal AI Routine Builder</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1>L'Oréal AI Beauty Assistant</h1>
+<header>
+  <h1>💄 L'Oréal AI Routine Builder</h1>
+  <p>Select products and generate your personalized routine</p>
+</header>
 
-    <div id="chatBox"></div>
+<main class="layout">
 
-    <form id="chatForm">
-      <input type="text" id="userInput" placeholder="Ask about skincare, haircare..." />
-      <button type="submit">Send</button>
-    </form>
-  </div>
+  <!-- PRODUCTS -->
+  <section class="products-section">
 
-  <script src="script.js"></script>
+    <div class="top-bar">
+      <select id="categoryFilter">
+        <option value="all">All</option>
+        <option value="skincare">Skincare</option>
+        <option value="makeup">Makeup</option>
+        <option value="haircare">Haircare</option>
+      </select>
+
+      <input id="searchInput" placeholder="Search products..." />
+    </div>
+
+    <div id="productGrid" class="grid"></div>
+  </section>
+
+  <!-- SIDE PANEL -->
+  <aside class="side-panel">
+
+    <div class="selected-box">
+      <h2>Selected Products</h2>
+      <div id="selectedProducts"></div>
+
+      <button onclick="generateRoutine()" class="btn">Generate Routine</button>
+      <button onclick="clearAll()" class="btn secondary">Clear All</button>
+    </div>
+
+    <div class="chat-box">
+      <h2>AI Chat</h2>
+
+      <div id="chatBox"></div>
+
+      <form id="chatForm">
+        <input id="chatInput" placeholder="Ask about skincare..." />
+        <button>Send</button>
+      </form>
+    </div>
+
+  </aside>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
