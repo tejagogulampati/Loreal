@@ -1,135 +1,93 @@
 body {
   margin: 0;
-  font-family: Arial;
-  background: #0f0f0f;
+  font-family: Arial, sans-serif;
+  background: #0b0b0b;
   color: white;
 }
 
-header {
-  text-align: center;
-  padding: 20px;
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
   background: #111;
   border-bottom: 2px solid #ff003b;
 }
 
-header h1 {
-  color: #ff003b;
+.logo {
+  height: 55px;
+  background: white;
+  padding: 8px;
+  border-radius: 10px;
 }
 
+/* LAYOUT */
 .layout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
   gap: 20px;
   padding: 20px;
 }
 
-/* PRODUCTS */
-.products-section {
-  flex: 2;
+/* PANELS */
+.left, .right {
+  background: #151515;
+  padding: 15px;
+  border-radius: 12px;
 }
 
-.top-bar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-select, input {
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-}
-
+/* GRID */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
 }
 
-.product-card {
-  background: #1a1a1a;
-  padding: 12px;
+.product {
+  background: #1f1f1f;
+  padding: 10px;
   border-radius: 10px;
   cursor: pointer;
-  border: 1px solid #333;
   transition: 0.2s;
 }
 
-.product-card:hover {
+.product:hover {
   transform: scale(1.03);
 }
 
-.product-card.selected {
+.product.selected {
   border: 2px solid #ff003b;
 }
 
-/* SIDE PANEL */
-.side-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.selected-box {
-  background: #1a1a1a;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-#selectedProducts div {
-  display: flex;
-  justify-content: space-between;
-  margin: 5px 0;
-}
-
 /* BUTTONS */
-.btn {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  background: #ff003b;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn.secondary {
-  background: #444;
-}
-
-/* CHAT */
-.chat-box {
-  background: #1a1a1a;
-  padding: 15px;
-  border-radius: 10px;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-}
-
-#chatBox {
-  flex: 1;
-  overflow-y: auto;
-  background: #111;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-#chatForm {
-  display: flex;
-  gap: 10px;
-}
-
-#chatInput {
-  flex: 1;
-  padding: 10px;
-}
-
 button {
   background: #ff003b;
   border: none;
-  color: white;
   padding: 10px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+/* CHAT */
+#chat {
+  height: 250px;
+  overflow-y: auto;
+  background: #0f0f0f;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 5px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
 }

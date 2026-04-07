@@ -1,62 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>L'Oréal AI Routine Builder</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
+
 <body>
 
-<header>
-  <h1>💄 L'Oréal AI Routine Builder</h1>
-  <p>Select products and generate your personalized routine</p>
-</header>
+  <!-- HEADER -->
+  <header class="header">
+    <img src="img/loreal-logo.png" class="logo" alt="L'Oréal Logo"/>
+  </header>
 
-<main class="layout">
+  <div class="layout">
 
-  <!-- PRODUCTS -->
-  <section class="products-section">
+    <!-- LEFT PANEL -->
+    <div class="left">
 
-    <div class="top-bar">
+      <h2>Products</h2>
+
       <select id="categoryFilter">
         <option value="all">All</option>
         <option value="skincare">Skincare</option>
-        <option value="makeup">Makeup</option>
         <option value="haircare">Haircare</option>
+        <option value="makeup">Makeup</option>
       </select>
 
-      <input id="searchInput" placeholder="Search products..." />
+      <div id="productGrid" class="grid"></div>
     </div>
 
-    <div id="productGrid" class="grid"></div>
-  </section>
+    <!-- RIGHT PANEL -->
+    <div class="right">
 
-  <!-- SIDE PANEL -->
-  <aside class="side-panel">
+      <h2>Selected</h2>
+      <div id="selectedList"></div>
 
-    <div class="selected-box">
-      <h2>Selected Products</h2>
-      <div id="selectedProducts"></div>
+      <div class="buttons">
+        <button id="clearBtn">Clear</button>
+        <button id="generateBtn">Generate Routine</button>
+      </div>
 
-      <button onclick="generateRoutine()" class="btn">Generate Routine</button>
-      <button onclick="clearAll()" class="btn secondary">Clear All</button>
+      <h2>Chat</h2>
+      <div id="chat"></div>
+
+      <div class="chat-input">
+        <input id="userInput" placeholder="Ask your routine..." />
+        <button id="sendBtn">Send</button>
+      </div>
+
     </div>
 
-    <div class="chat-box">
-      <h2>AI Chat</h2>
+  </div>
 
-      <div id="chatBox"></div>
-
-      <form id="chatForm">
-        <input id="chatInput" placeholder="Ask about skincare..." />
-        <button>Send</button>
-      </form>
-    </div>
-
-  </aside>
-
-</main>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

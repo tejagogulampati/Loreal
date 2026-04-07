@@ -1,50 +1,27 @@
 export default {
   async fetch(request, env) {
-
-    // CORS FIX (VERY IMPORTANT)
-    if (request.method === "OPTIONS") {
-      return new Response(null, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type"
-        }
-      });
-    }
-
     try {
+
       const body = await request.json();
 
-      const type = body.type;
-      const products = body.products || [];
-      const message = body.message || "Generate routine";
-      const history = body.history || [];
+      let prompt = "";
 
-      let systemPrompt = "";
-
-      if (type === "routine") {
-        systemPrompt = `
-You are a L'Oréal skincare expert.
+      if (body.type === "routine") {
+        prompt = `
+You are a skincare expert.
 
 Create a morning and night routine using ONLY these products:
 
-${JSON.stringify(products)}
+${JSON.stringify(body.products)}
 
-Rules:
-- Use only given products
-- Be clear and structured
-- Morning / Night format
+Format:
+Morning:
+- ...
+Night:
+- ...
 `;
       } else {
-        systemPrompt = `
-You are a skincare AI assistant.
-
-Only talk about:
-skincare, haircare, makeup, fragrance.
-
-Conversation history:
-${JSON.stringify(history)}
-`;
+        prompt = body.message;
       }
 
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -56,8 +33,8 @@ ${JSON.stringify(history)}
         body: JSON.stringify({
           model: "gpt-4o-mini",
           messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: message }
+            { role: "system", content: "You are a helpful skincare assistant." },
+            { role: "user", content: prompt }
           ],
           temperature: 0.7
         })
@@ -66,7 +43,7 @@ ${JSON.stringify(history)}
       const data = await response.json();
 
       return new Response(JSON.stringify({
-        reply: data.choices?.[0]?.message?.content || "No AI response"
+        reply: data.choices?.[0]?.message?.content || "No response from AI"
       }), {
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +53,7 @@ ${JSON.stringify(history)}
 
     } catch (err) {
       return new Response(JSON.stringify({
-        reply: "Server error: " + err.message
+        reply: "ERROR: " + err.message
       }), {
         headers: {
           "Content-Type": "application/json",
